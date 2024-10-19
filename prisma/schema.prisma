@@ -1,0 +1,55 @@
+// schema.prisma
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  uid   String  @unique @default(uuid())
+  name  String
+  email String @unique
+  bids  Bid[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? 
+  @@map("users")
+}
+
+model Auction {
+  id             Int       @id @default(autoincrement())
+  uid            String    @unique @default(uuid())
+  itemName       String
+  price Float @default(0)
+  auctionStart   DateTime
+  auctionEnd     DateTime
+  bids           Bid[]
+  open Boolean @default(false)
+    version     Int      @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? 
+  @@map("auctions")
+}
+
+model Bid {
+  id        Int     @id @default(autoincrement())
+  uid       String  @unique @default(uuid())
+  amount    Float
+  userId    Int
+  auctionId Int
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  auction   Auction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? 
+  @@map("bids")
+
+  @@index([auctionId, createdAt])
+}
