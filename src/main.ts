@@ -23,6 +23,6 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   // Get the port from environment variable with a default fallback
   const port = configService.get<number>('PORT', 2000);
-  await app.listen(1200);
+  await app.listen(port);
 }
 bootstrap();
