@@ -11,7 +11,6 @@ import Redis from 'ioredis';
 export class BidsService {
   constructor(@InjectRedis() private readonly redis: Redis, private prismaService: PrismaService) {}
 
-// Inside your Prisma service or raw SQL query
 async create(createBidDto: CreateBidDto) {
   const { amount, userId, auctionId } = createBidDto;
 
@@ -34,7 +33,7 @@ async create(createBidDto: CreateBidDto) {
 
     const auctionData = auction[0];
 
-    // Verify that the bid amount is higher than the current price (double-check in case of race condition)
+    // Verify that the bid amount is higher than the current price 
     if (amount <= auctionData.price) {
       throw new Error('Bid amount must be higher than the current price');
     }
