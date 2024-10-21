@@ -1,4 +1,8 @@
-
+## project reqirements
+- nodejs +18.x.x
+- mysql 
+- redis 
+- docker `optional`
 ## Project setup
 1- create create a `.env` and add these variables to it:
 
